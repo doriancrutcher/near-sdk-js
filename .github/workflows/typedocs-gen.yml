@@ -13,7 +13,7 @@ jobs:
   # clone sdk repo into VM 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
   # setup node in VM
       - name: Setup Node.js
