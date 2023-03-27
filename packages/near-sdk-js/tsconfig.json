@@ -21,6 +21,10 @@
     "allowJs": true,
     "skipLibCheck": true
   },
+  "typedocOptions": {
+    "entryPoints": ["src/index.ts"],
+    "out": "docs"
+},
   "files": [
     "src/index.ts",
     "src/cli/build-tools/near-bindgen-exporter.ts",
