@@ -23,7 +23,9 @@ jobs:
       # install dependencies
       - name: Install dependencies
         run: |
-          npm i
+          npm i pnpm
+          cd ./packages/near-sdk-js
+          pnpm i
 
       # build typedocs by running script in library
       - name: Build Typedocs
