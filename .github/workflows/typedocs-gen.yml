@@ -9,41 +9,37 @@ jobs:
   update-typedocs:
     runs-on: ubuntu-latest
 
-
-  # clone sdk repo into VM 
+    # clone sdk repo into VM
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-  # setup node in VM
+      # setup node in VM
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: "14.x"
 
-  # install dependencies 
-    - name: Install dependencies
-      run: |
+      # install dependencies
+      - name: Install dependencies
+        run: |
+          npm i
 
-          npm i pnpm
-          npm i 
-  # build typedocs by running script in library 
+      # build typedocs by running script in library
       - name: Build Typedocs
         run: pnpm run build-typedocs
         working-directory: ./packages/near-sdk-js
 
-
-  # deploy docs onto gh pages 
+      # deploy docs onto gh pages
       - name: Deploy Typedocs
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{secrets.PERSONAL_TOKEN}}
           publish_dir: ./docs/typedocs
 
-  # Upload the typedoc documentation as an artifact
-  - name: Upload Typedocs Artifact
-  uses: actions/upload-artifact@v2
-  with: 
-    name: typedocs
-    path: ./packages/near-sdk-js/docs
-
+      # Upload the typedoc documentation as an artifact
+      - name: Upload Typedocs Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: typedocs
+          path: ./packages/near-sdk-js/docs
