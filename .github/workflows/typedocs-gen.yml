@@ -24,8 +24,8 @@ jobs:
   # install dependencies 
     - name: Install dependencies
       run: |
-        pnpm update
-        pnpm install
+
+          npm i pnpm
 
   # build typedocs by running script in library 
       - name: Build Typedocs
