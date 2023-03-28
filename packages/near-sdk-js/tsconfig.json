@@ -30,6 +30,8 @@
     "src/cli/build-tools/near-bindgen-exporter.ts",
     "src/cli/build-tools/include-bytes.ts",
     "src/cli/cli.ts",
-    "src/cli/post-install.ts"
+    "src/cli/post-install.ts",
+    "docs/assets/main.js",
+    "docs/assets/search.js"
   ]
 }
