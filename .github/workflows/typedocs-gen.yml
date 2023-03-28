@@ -26,8 +26,7 @@ jobs:
       run: |
 
           npm i pnpm
-          pnpm install --no-frozen-lockfile
-
+          npm i 
   # build typedocs by running script in library 
       - name: Build Typedocs
         run: pnpm run build-typedocs
