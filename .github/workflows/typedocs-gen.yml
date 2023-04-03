@@ -10,10 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-- name: Generate Documentation     
-uses: actions/checkout@v3
-
-      
+      - name: Generate Documentation
+        uses: actions/checkout@v3
         run: |
           npm i -g pnpm
           pnpm install --no-frozen-lockfile
@@ -28,30 +26,22 @@ uses: actions/checkout@v3
           path: ./packages/near-sdk-js/src/typedocs/
 
   upload:
-      runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the
       # added or changed files to the repository.
       contents: write
-    needs: typedoc
-    - name: Checkout docs repo
-      uses: actions/checkout@v3
-      with:
-        repository: doriancrutcher/docs2
-        ref: "develop"
-
-      permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the
-      # added or changed files to the repository.
-      contents: write
     needs: makedocs
+
     steps:
-      - name: Checkout code
+      - name: Checkout docs repo
         uses: actions/checkout@v3
+        with:
+          repository: doriancrutcher/docs2
+          ref: "develop"
 
 
       # get artifact to download
-
       - name: Get artifact
         uses: actions/download-artifact@v3
         with:
