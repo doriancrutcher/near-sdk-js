@@ -3,45 +3,66 @@ name: Update Typedoc Workflow
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
-  update-typedocs:
+  makedocs:
     runs-on: ubuntu-latest
 
-    # clone sdk repo into VM
+    steps:
+- name: Generate Documentation     
+uses: actions/checkout@v3
+
+      
+        run: |
+          npm i -g pnpm
+          pnpm install --no-frozen-lockfile
+          cd ./packages/near-sdk-js/src
+          npx typedoc index.ts --out ./typedocs
+          ls
+
+      - name: Upload docs as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: typedocs
+          path: ./packages/near-sdk-js/src/typedocs/
+
+  upload:
+      runs-on: ubuntu-latest
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
+    needs: typedoc
+    - name: Checkout docs repo
+      uses: actions/checkout@v3
+      with:
+        repository: doriancrutcher/docs2
+        ref: "develop"
+
+      permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
+    needs: makedocs
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # setup node in VM
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14.x"
 
-      # install dependencies
-      - name: Install dependencies
-        run: |
-          npm i pnpm
-          cd ./packages/near-sdk-js
-          pnpm i
+      # get artifact to download
 
-      # build typedocs by running script in library
-      - name: Build Typedocs
-        run: pnpm run build-typedocs
-        working-directory: ./packages/near-sdk-js
-
-      # deploy docs onto gh pages
-      - name: Deploy Typedocs
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          personal_token: ${{secrets.PERSONAL_TOKEN}}
-          publish_dir: ./docs/typedocs
-
-      # Upload the typedoc documentation as an artifact
-      - name: Upload Typedocs Artifact
-        uses: actions/upload-artifact@v2
+      - name: Get artifact
+        uses: actions/download-artifact@v3
         with:
           name: typedocs
-          path: ./packages/near-sdk-js/docs
+          path: ./website/near-sdk-js_versioned_docs/version-near-sdk-js@0.7.0
+
+      - name: Display structure of downloaded files
+        run: ls -R
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Add typedoc documentation"
+          commit_options: "--no-verify"
