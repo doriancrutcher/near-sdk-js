@@ -41,6 +41,9 @@ jobs:
           ref: "develop"
 
 
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       # get artifact to download
       - name: Get artifact
         uses: actions/download-artifact@v3
