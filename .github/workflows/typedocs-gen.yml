@@ -21,7 +21,6 @@ jobs:
           repo: docs2
           github_token: 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
           workflow_file_name: typedocs.yml
-          ref: deploy
       - name: Deploy Web App
         run: |
           echo "UpdateTypeDocs"
