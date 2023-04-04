@@ -11,9 +11,9 @@ jobs:
     name: build docs 
     runs-on: ubuntu-latest
     steps:
-      - name: Build Web App
+      - name: CREATE TYPE DOCS
         run: |
-          echo "Build Web App"
+          echo "make typedocs
           sleep 10s
       - uses: convictional/trigger-workflow-and-wait@v1.3.0
         with:
@@ -21,7 +21,5 @@ jobs:
           repo: docs2
           github_token: ${{ secrets.G_ACCESS_TOKEN }}
           workflow_file_name: typedocs.yml
-      - name: Deploy Web App
-        run: |
-          echo "UpdateTypeDocs"
-          sleep 10s
+          trigger_workflow: true
+          
