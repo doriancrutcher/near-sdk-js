@@ -19,7 +19,7 @@ jobs:
         with:
           owner: doriancrutcher
           repo: docs2
-          github_token: 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
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           workflow_file_name: typedocs.yml
       - name: Deploy Web App
         run: |
