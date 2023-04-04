@@ -15,4 +15,4 @@ jobs:
         uses: doriancrutcher/docs2@main
         with:
           token: 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
-          event-type: repo-b-update
+          event-type: sdk-js-update
