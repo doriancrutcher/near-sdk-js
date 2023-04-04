@@ -11,8 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Dispatch event
-        uses: doriancrutcher/docs2@main
-        with:
-          token: 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
-          event-type: sdk-js-update
+      - name: PING - Dispatch initiating repository event
+        if: github.event.action != 'pong'
+        run: |
+          curl -X POST https://api.github.com/repos/doriancrutcher/near-sdk-js/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u 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\
+          --data '{"event_type": "ping", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
