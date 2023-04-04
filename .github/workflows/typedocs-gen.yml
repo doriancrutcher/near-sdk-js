@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Dispatch event
-        uses: peter-evans/repository-dispatch@v1
+        uses: doriancrutcher/docs2@v1
         with:
           token: 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
           event-type: repo-b-update
