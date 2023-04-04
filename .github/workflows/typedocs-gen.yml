@@ -1,61 +1,17 @@
-name: Update Typedoc Workflow
+name: Dispatch repo-b-update event
 
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
-  makedocs:
+  dispatch:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Generate Documentation
-        uses: actions/checkout@v3
-        run: |
-          npm i -g pnpm
-          pnpm install --no-frozen-lockfile
-          cd ./packages/near-sdk-js/src
-          npx typedoc index.ts --out ./typedocs
-          ls
-
-      - name: Upload docs as Artifact
-        uses: actions/upload-artifact@v3
+      - name: Dispatch event
+        uses: peter-evans/repository-dispatch@v1
         with:
-          name: typedocs
-          path: ./packages/near-sdk-js/src/typedocs/
-
-  upload:
-    runs-on: ubuntu-latest
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the
-      # added or changed files to the repository.
-      contents: write
-    needs: makedocs
-
-    steps:
-      - name: Checkout docs repo
-        uses: actions/checkout@v3
-        with:
-          repository: doriancrutcher/docs2
-          ref: "develop"
-
-
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # get artifact to download
-      - name: Get artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: typedocs
-          path: ./website/near-sdk-js_versioned_docs/version-near-sdk-js@0.7.0
-
-      - name: Display structure of downloaded files
-        run: ls -R
-
-      - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Add typedoc documentation"
-          commit_options: "--no-verify"
+          token: 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
+          event-type: repo-b-update
