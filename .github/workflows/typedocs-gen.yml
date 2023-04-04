@@ -8,10 +8,10 @@ on:
   
 jobs:
   build:
-    name: build docs 
+    name: build-docs 
     runs-on: ubuntu-latest
     steps:
-      - name: CREATE TYPE DOCS
+      - name: create-type-docs
         run: |
           echo "make typedocs
           sleep 10s
